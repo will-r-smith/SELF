@@ -1,0 +1,9 @@
+0-1 correctness,avg f1 score,mean log prob,perplexity,dataset_size,total answer tokens,num log probs,top-1 accuracy,top-5 accuracy,top-10 accuracy,args/test,args/model,args/intervention,args/rate,args/dataset,args/prop_data,args/batch_size,args/k,args/lname,args/lnum,args/learning_rate,args/num_epochs,Frobenius_ratio
+0.0,,-10.582305324118854,39430.91073497406,289,289.0,289,0.0,2.0761245674740483,3.460207612456748,evaluate,pythia,lr,0.9,counterfact,0.005,256,10,['fc_in'],['11'],0.001,2,{}
+0.0,,-10.582305324118854,39430.91073497406,289,289.0,289,0.0,2.0761245674740483,3.460207612456748,evaluate,pythia,lr,0.9,counterfact,0.005,256,10,['fc_in'],['11'],0.001,2,{}
+0.0,,-11.038985252380373,62254.44717767218,1,1.0,1,0.0,0.0,0.0,evaluate,pythia,lr,0.9,counterfact,0.005,256,10,['fc_in'],['11'],0.001,2,{}
+0.0,,-11.038985252380373,62254.44717767218,1,1.0,1,0.0,0.0,0.0,evaluate,pythia,lr,0.9,counterfact,0.005,256,10,['fc_in'],['11'],0.001,2,{}
+0.0,,-11.038985252380373,62254.44717767218,1,1.0,1,0.0,0.0,0.0,evaluate,pythia,lr,0.9,counterfact,0.005,256,10,['fc_in'],['11'],0.001,2,{}
+0.0,,-11.038985252380373,62254.44717767218,1,1.0,1,0.0,0.0,0.0,evaluate,pythia,lr,0.9,counterfact,0.005,256,10,['fc_in'],['11'],0.001,2,{}
+0.0,,-9.077272415161133,8754.056003108835,1,1.0,1,0.0,0.0,0.0,evaluate,pythia,lr,0.9,counterfact,0.005,256,10,['fc_in'],['11'],0.001,2,{}
+0.0,,-8.545231819152832,5142.177048931417,1,1.0,1,0.0,0.0,0.0,evaluate,pythia,lr,0.9,counterfact,0.005,256,10,['fc_in'],['11'],0.001,2,{'layer_11_weight': 0.8185328841209412}
