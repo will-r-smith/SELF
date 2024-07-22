@@ -81,7 +81,7 @@ class Experiment:
         for name, param in params_to_modify:
             print(f"Approximating layer: .{layer_num}.{key}") 
 
-            original_mat = param.detach().numpy().copy()
+            original_mat = param.detach().cpu().numpy()
             original_mat_tensor = deepcopy(param)
 
             if self.args.intervention == "lr":

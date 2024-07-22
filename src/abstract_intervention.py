@@ -57,10 +57,10 @@ class AbstractIntervention:
                 # otherwise the method will proceed for all layer types at the specified layer number
 
             # For the sparsity analysis
-            mat_analysis = param.detach().numpy().copy()
+            mat_analysis = param.detach().cpu().numpy()
             mat_sort = sorted_mat(mat_analysis)
 
-            mat_analysis = param.detach().numpy().copy()
+            mat_analysis = param.detach().cpu().numpy()
             mat_analysis_tensor = deepcopy(param)
 
             if args.intervention == 'dropout':
