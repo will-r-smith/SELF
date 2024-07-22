@@ -42,10 +42,10 @@ if __name__ == '__main__':
         exp.evaluate()
 
     if args.test == 'fine_tune':
-        exp.evaluate()
+        #exp.evaluate()
         exp.intervene()
-        exp.evaluate()
+        #exp.evaluate()
         exp.fine_tune()
-        exp.evaluate()
+        #exp.evaluate()
 
 

@@ -135,6 +135,8 @@ class Experiment:
                 cache_dir='./cache'
             ) 
 
+        self.model_original = model
+
         print("finished loading")
         self.model = model
         print("adding to self")
@@ -142,7 +144,6 @@ class Experiment:
 
         self.model.to(self.device)
         print("added to device")
-
 
 
 
@@ -229,10 +230,15 @@ class Experiment:
 
         self.load_dataset()
 
-        for name, param in self.model.named_parameters():
-            print(name)
+        #for name, param in self.model.named_parameters():
+            #print(name)
 
-        print(self.trainable_parameters)
+        if self.config[self.args.model]["type"] == "decoder":
+            from src.eval_utils.decoder_only import get_token_ids
+        if self.config[self.args.model]["type"] == "encoder_decoder":
+            from src.eval_utils.encoder_decoder import get_token_ids
+
+        #print(self.trainable_parameters)
 
         # Only the parameters with 'U', 'S', or 'Vt' in their names will be trained
         trainable_params = [param for name, param in self.model.named_parameters() if name.split(".")[-1] in self.trainable_parameters]
@@ -249,7 +255,7 @@ class Experiment:
                 my_batch_size = min(self.args.batch_size, self.dataset_size - i)
                 batch = self.dataset[i: i + my_batch_size]
 
-                mask_token_ids, batch_gold_answer_token_ids, batch_token_ids_and_mask, gold_answers = self.get_token_ids(batch)
+                mask_token_ids, batch_gold_answer_token_ids, batch_token_ids_and_mask, gold_answers = get_token_ids(self, batch)
 
                 # Generate log probabilities over masked tokens, 1 per data point
                 logits = self.model(**batch_token_ids_and_mask).logits
@@ -268,7 +274,7 @@ class Experiment:
                 loss.backward()
                 optimizer.step()
 
-            print(f"Epoch {epoch+1}/{self.args.num_epochs}, Loss: {loss.item()}")
+            print(f"Epoch {epoch+1}/{self.args.num_epochs}, Loss: x") #{loss.item()}
 
 
 

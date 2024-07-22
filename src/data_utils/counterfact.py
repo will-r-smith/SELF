@@ -20,13 +20,7 @@ def load_dataset(self):
         question = data[i]["question"]
         answer = data[i]["gold-answer"]
         assert answer.startswith(" "), f"Found answer that doesn't start with space ${answer}$"
-        
-        # Check if the answer is a single token
-        tokenized_answer = self.tokenizer(answer)["input_ids"]
-        if len(tokenized_answer) == 1:  # Assume format [CLS] token [SEP]
-            dataset.append((question, answer))
-        else:
-            print(f"Skipping example with multi-token answer: {answer}")
+        dataset.append((question, answer))
 
     for i in range(len(dataset)):
         question, answer = dataset[i]

@@ -3,6 +3,48 @@ from tqdm import tqdm
 import torch
 
 
+def get_token_ids(self, batch):
+    batch_token_ids_and_mask = self.tokenizer([question for question, _ in batch],
+                                            return_tensors="pt", padding="longest").to(self.device)
+
+    # Find position of the masked_token_id
+    mask_token_flag = \
+        (batch_token_ids_and_mask["input_ids"] == self.tokenizer.mask_token_id).float()         # batch x max_length
+    
+    # Check for entries with exactly one mask token
+    valid_mask_entries = (mask_token_flag.sum(1) == 1.0)
+    if not valid_mask_entries.all().item():
+        # Filter out invalid entries
+        batch = [batch[i] for i in range(len(batch)) if valid_mask_entries[i].item()]
+        batch_token_ids_and_mask = self.tokenizer(
+            [question for question, _ in batch],
+            return_tensors="pt",
+            padding="longest",
+            truncation=True,
+            max_length=self.tokenizer.model_max_length
+        ).to(self.device)
+        mask_token_flag = (batch_token_ids_and_mask["input_ids"] == self.tokenizer.mask_token_id).float()
+
+
+    assert (mask_token_flag.sum(1) == 1.0).all().item()
+    mask_token_ids = mask_token_flag.argmax(dim=1)                                         # batch
+
+    # Prepare gold answers
+    gold_answers = [gold_answer if gold_answer.startswith(" ") else f" {gold_answer}" for _, gold_answer in batch]
+
+    batch_gold_answer_token_ids = []
+    for gold_answer in gold_answers:
+        gold_answer_token_ids = self.tokenizer(gold_answer)["input_ids"]
+        if not (len(gold_answer_token_ids) == 3 and
+                gold_answer_token_ids[0] == 0 and
+                gold_answer_token_ids[2] == 2):
+            raise AssertionError(f"Gold answer {gold_answer} has tokens {gold_answer_token_ids}")
+        batch_gold_answer_token_ids.append(gold_answer_token_ids[1])
+
+    batch_gold_answer_token_ids = torch.LongTensor(batch_gold_answer_token_ids).unsqueeze(1).to(self.device)  # batch x 1
+
+    return mask_token_ids, batch_gold_answer_token_ids, batch_token_ids_and_mask, gold_answers
+
 def eval_dataset(self):
 
     for i in tqdm(range(0, self.dataset_size, self.args.batch_size)):
