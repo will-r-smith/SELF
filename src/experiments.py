@@ -186,7 +186,7 @@ class Experiment:
 
         self.terminate_and_save()
 
-        print(f"\nCorrectness:  {self.results["0-1 correctness"]}")
+        print(f"\nCorrectness:  {self.results['0-1 correctness']}")
 
 
 
